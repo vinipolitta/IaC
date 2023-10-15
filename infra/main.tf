@@ -24,7 +24,7 @@ resource "aws_instance" "app_server" {
 
 resource "aws_key_pair" "chaveSSH" {
   key_name = var.chave
-  public_key = file("${var.chave}.pub")
+  public_key = file("${var.chave}.pub") 
 }
 
 output "IP_publico" {

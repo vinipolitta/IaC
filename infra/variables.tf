@@ -14,5 +14,9 @@ variable "ami" {
     type        = string
 }
 
+variable "ambiente" {
+    type = string
+}
+
 
 

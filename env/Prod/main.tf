@@ -1,9 +1,10 @@
 module "aws-prod" {
     source = "../../infra"
     instancia = "t3.micro"
-    regiao_aws_eua = "us-east-1"
+    regiao_aws_eua = "us-west-2"
     chave = "IaC-PROD"
-    ami = "ami-053b0d53c279acc90"
+    ami = "ami-03f65b8614a860c29"
+    ambiente = "prod"
 }
 
 output "IP" {

@@ -56,7 +56,6 @@
 
     # - name: Instalar o Angular CLI
     #   command: npm install -g @angular/cli
-    #   state: present
 
     # - name: Iniciar um projeto Angular
     #   become: true
