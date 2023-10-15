@@ -39,6 +39,9 @@ terraform.rc
 
 README-init.MD
 
-
+# Ignore folder History files
+**/.history/*
 *.pem
+
+*IaC-*
 # End of https://www.toptal.com/developers/gitignore/api/terraform

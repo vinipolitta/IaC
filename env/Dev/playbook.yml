@@ -1,0 +1,71 @@
+- hosts: terraform-ansible
+  tasks:
+    - name: Instalando o python3 e virtualenv
+      apt:
+        pkg:
+          - python3
+          - virtualenv
+        update_cache: yes
+      become: true
+
+    - name: Instalar o OpenJDK 17 (Java 17)
+      apt:
+        pkg: openjdk-17-jdk
+        update_cache: yes
+      become: true
+
+    - name: Instalar dependencias com pip (Django e Django Rest)
+      pip:
+        virtualenv: /home/ubuntu/tcc/venv
+        name:
+          - django
+          - djangorestframework
+
+    - name: verificando se o projeto ja foi iniciado
+      stat:
+        path: /home/ubuntu/tcc/setup/settings.py
+      register: projeto
+
+    - name: Iniciando o projeto
+      shell: ". /home/ubuntu/tcc/venv/bin/activate; django-admin startproject setup /home/ubuntu/tcc/"
+      when: not projeto.stat.exists
+
+    - name: alterando host do settings
+      lineinfile:
+        path: /home/ubuntu/tcc/setup/settings.py
+        regexp: "ALLOWED_HOSTS"
+        line: 'ALLOWED_HOSTS = ["*"]'
+        backrefs: yes
+
+- name: Instalar o Node.js e o Angular CLI
+  hosts: terraform-ansible
+  become: true # Adicione o módulo become aqui para fornecer privilégios de superusuário a todas as tarefas
+
+  tasks:
+    - name: Instalar o Node.js
+      apt:
+        name: "nodejs"
+        state: present
+        update_cache: yes
+
+    # - name: Adicionar diretório do Node.js ao PATH
+    #   become: true
+    #   lineinfile:
+    #     path: /etc/environment
+    #     line: 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/lib/node_modules/npm/bin"'
+
+    # - name: Instalar o Angular CLI
+    #   command: npm install -g @angular/cli
+    #   state: present
+
+    # - name: Iniciar um projeto Angular
+    #   become: true
+    #   command: ng new meu-projeto-angular
+    #   args:
+    #     chdir: /home/ubuntu/tcc/angular
+
+    # - name: Iniciar o servidor de desenvolvimento do Angular
+    #   become: true
+    #   command: ng serve
+    #   args:
+    #     chdir: /home/ubuntu/tcc/angular/meu-projeto-angular
